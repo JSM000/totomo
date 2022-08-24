@@ -1,8 +1,8 @@
-import React, { useRef, useState } from "react";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import React from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { setRoomID } from "../../modules/roomInfo";
+import PasswordModal from "./PasswordModal";
 
 const RoomContainer = styled.div`
   background: var(--color-green);
@@ -20,17 +20,28 @@ const RoomContainer = styled.div`
     background-color: var(--color-red);
   }
 `;
+const Column = styled.div`
+  background-color: white;
+  width: 70px;
+  border-radius: 15px;
+  border-bottom-right-radius: 0;
+  text-align: center;
+  line-height: 55px;
+  color: var(--color-green);
+  font-size: 1.5rem;
+  font-weight: bold;
+`;
 const Title = styled.div`
   font-weight: bold;
   color: white;
-  width: 90%;
+  width: 100%;
   font-size: 2rem;
   display: flex;
   justify-content: center;
   overflow-x: scroll;
   white-space: nowrap;
   ::-webkit-scrollbar {
-    height: 5px; /*스크롤바의 너비*/
+    height: 7.5px; /*스크롤바의 너비*/
   }
   ::-webkit-scrollbar-thumb {
     background-color: black; /*스크롤바의 색상*/
@@ -44,61 +55,52 @@ const RawContainer = styled.div`
   display: flex;
 `;
 const SchoolImg = styled.img`
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  padding: 5px;
-  margin: 10px 0px;
-  border: 5px solid white;
+  width: 130px;
+  height: 130px;
+  border-radius: 25%;
+  padding: 3px;
+  margin: 20px 0px;
+  margin-right: 20px;
+  border: 3px solid white;
 `;
 const ColumnContainer = styled.div`
-  width: 400px;
+  width: ${(props) => props.asd};
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
 `;
-const InputBox = styled.input`
-  width: 90%;
-  height: 2rem;
-  border: none;
-  border-radius: 10px;
-  font-size: 1.5rem;
-  text-align: center;
-  ::placeholder,
-  ::-webkit-input-placeholder {
-    font-weight: bold;
-    text-align: center;
-  }
-  :-ms-input-placeholder {
-    font-weight: bold;
-    text-align: center;
-  }
-`;
 
 const Room = ({ roomInfo }) => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const [modalOn, setModalOn] = useState(false);
   const sImgURL = roomInfo.sImgURL
     ? roomInfo.sImgURL
     : "images/default_school.png";
   return (
-    <RoomContainer
-      onClick={() => {
-        dispatch(setRoomID(roomInfo.postKey));
-        navigate("/Room");
-      }}
-    >
-      <RawContainer>
-        <SchoolImg src={sImgURL}></SchoolImg>
-        <ColumnContainer>
-          <Title>
-            {roomInfo.schoolName}-{roomInfo.roomName}
-          </Title>
-          <InputBox placeholder="비밀번호를 입력하세요."></InputBox>
-        </ColumnContainer>
-      </RawContainer>
-    </RoomContainer>
+    <>
+      <PasswordModal
+        show={modalOn}
+        onHide={() => setModalOn(false)}
+        roomInfo={roomInfo}
+      ></PasswordModal>
+      <RoomContainer
+        onClick={() => {
+          setModalOn(true);
+        }}
+      >
+        <RawContainer>
+          <SchoolImg src={sImgURL}></SchoolImg>
+          <ColumnContainer asd="70px">
+            <Column>학교</Column>
+            <Column>반</Column>
+          </ColumnContainer>
+          <ColumnContainer asd="300px">
+            <Title>{roomInfo.schoolName}</Title>
+            <Title>{roomInfo.roomName}</Title>
+          </ColumnContainer>
+        </RawContainer>
+      </RoomContainer>
+    </>
   );
 };
 
