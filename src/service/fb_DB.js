@@ -5,6 +5,10 @@ export const setDB = async (ref, data) => {
 };
 
 export const updateDB = async (ref, data) => {
+  await fb_DB.ref().child(ref).update(data);
+};
+
+export const updateDBwithPK = async (ref, data) => {
   const updates = {};
   const newPostKey = fb_DB.ref().child(ref).push().key;
   data["postKey"] = newPostKey;

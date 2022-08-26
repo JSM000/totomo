@@ -50,7 +50,13 @@ const InputBox = styled.input`
   }
 `;
 
-const SetRoom = ({ handleSchoolImg, schoolName, roomName, password }) => {
+const SetRoom = ({
+  handleSchoolImg,
+  schoolName,
+  roomName,
+  password,
+  onSubmit,
+}) => {
   const fileInputRef = useRef();
   const previewRef = useRef();
 
@@ -84,9 +90,21 @@ const SetRoom = ({ handleSchoolImg, schoolName, roomName, password }) => {
           style={{ display: "none" }}
         />
         <ColumnContainer>
-          <InputBox ref={schoolName} placeholder="학교 이름"></InputBox>
-          <InputBox ref={roomName} placeholder="방 이름"></InputBox>
-          <InputBox ref={password} placeholder="비밀번호"></InputBox>
+          <InputBox
+            ref={schoolName}
+            placeholder="학교 이름"
+            onKeyPress={(e) => e.key === "Enter" && onSubmit()}
+          ></InputBox>
+          <InputBox
+            ref={roomName}
+            placeholder="방 이름"
+            onKeyPress={(e) => e.key === "Enter" && onSubmit()}
+          ></InputBox>
+          <InputBox
+            ref={password}
+            placeholder="비밀번호"
+            onKeyPress={(e) => e.key === "Enter" && onSubmit()}
+          ></InputBox>
         </ColumnContainer>
       </RawContainer>
     </>

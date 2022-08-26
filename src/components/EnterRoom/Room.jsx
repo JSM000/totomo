@@ -1,7 +1,6 @@
 import React from "react";
 import { useState } from "react";
 import styled from "styled-components";
-import { setRoomID } from "../../modules/roomInfo";
 import PasswordModal from "./PasswordModal";
 
 const RoomContainer = styled.div`

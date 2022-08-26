@@ -68,7 +68,7 @@ const PasswordModal = ({ show, onHide, roomInfo }) => {
       return;
     } else if (passwordRef.current.value === roomInfo.password) {
       dispatch(setRoomID(roomInfo.postKey));
-      navigate("/Room");
+      navigate("/editProfile");
     } else {
       onHide();
       alert("비밀번호가 틀렸습니다!");
@@ -87,6 +87,7 @@ const PasswordModal = ({ show, onHide, roomInfo }) => {
           {roomInfo.schoolName}-{roomInfo.roomName}
         </Title>
       </Modal.Header>
+
       <Modal.Body>
         <InputBox
           ref={passwordRef}
@@ -100,9 +101,8 @@ const PasswordModal = ({ show, onHide, roomInfo }) => {
         ></InputBox>
       </Modal.Body>
       <Modal.Footer>
-        <Btn onClick={onSubmit}>입장</Btn>
+        <Btn onClick={onSubmit}>확인</Btn>
       </Modal.Footer>
-      `
     </Modal>
   );
 };

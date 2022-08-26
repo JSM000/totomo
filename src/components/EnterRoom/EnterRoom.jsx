@@ -5,7 +5,6 @@ import * as fb_DB from "../../service/fb_DB";
 import Header from "../Header/Header";
 import HeaderBtn from "../Header/HeaderBtn";
 import Room from "./Room";
-import PasswordModal from "./PasswordModal";
 
 const EnterRoom = () => {
   const navigate = useNavigate();
@@ -23,7 +22,7 @@ const EnterRoom = () => {
       <Header>
         <HeaderBtn
           onClick={() => navigate("/")}
-          content={"뒤로가기"}
+          content={"<<뒤로가기"}
         ></HeaderBtn>
       </Header>
       {Object.keys(rooms).map((key) => {

@@ -1,16 +1,16 @@
-import React, { useState, useRef } from "react";
+import React from "react";
+import { useState } from "react";
+import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import ReactLoading from "react-loading";
-import { useDispatch } from "react-redux";
 
-import { setRoomID } from "../../modules/roomInfo";
-import SetProfile from "./SetProfile";
-import SetRoom from "./SetRoom";
-import Header from "../Header/Header";
-import HeaderBtn from "../Header/HeaderBtn";
 import * as fb_DB from "../../service/fb_DB";
 import * as fb_storage from "../../service/fb_storage";
+import Header from "../Header/Header";
+import HeaderBtn from "../Header/HeaderBtn";
+import SetProfile from "./SetProfile";
+import { useSelector } from "react-redux";
 
 const SetContainer = styled.div`
   background: ${(props) => props.backColor};
@@ -45,57 +45,33 @@ const LoadingContainer = styled.div`
   justify-content: center;
   align-items: center;
 `;
-
-const MakeRoom = (props) => {
-  const dispatch = useDispatch();
+const EditProfile = (props) => {
   const navigate = useNavigate();
-  const [profileImg, setProfileImg] = useState(null);
-  const [schoolImg, setSchoolImg] = useState(null);
   const nickName = useRef();
-  const schoolName = useRef();
-  const roomName = useRef();
-  const password = useRef();
+  const [profileImg, setProfileImg] = useState();
   const [loading, setloading] = useState(false);
-
+  const roomID = useSelector(({ roomInfo }) => roomInfo.roomID);
   const handleProfileImg = (file) => {
     setProfileImg(file);
   };
-  const handleSchoolImg = (file) => {
-    setSchoolImg(file);
-  };
+
   const saveImg = async (ref, img) => {
     return img ? await fb_storage.putStorage(ref, img) : "";
   };
-  const makeRoom = async () => {
+
+  const enterRoom = async () => {
     if (!nickName.current.value) {
       alert("닉네임을 입력하세요.");
-      return;
-    }
-    if (!schoolName.current.value) {
-      alert("학교 이름을 입력하세요.");
-      return;
-    }
-    if (!roomName.current.value) {
-      alert("방 이름을 입력하세요.");
-      return;
-    }
-    if (!password.current.value) {
-      alert("비밀번호를 입력하세요.");
       return;
     }
     setloading(true);
     try {
       const pImgURL = await saveImg("profileImgs", profileImg);
-      const sImgURL = await saveImg("schoolImgs", schoolImg);
-      const roomData = {
-        host: { pImgURL, nickName: nickName.current.value },
-        sImgURL,
-        schoolName: schoolName.current.value,
-        roomName: roomName.current.value,
-        password: password.current.value,
+      const profileData = {
+        pImgURL,
+        nickName: nickName.current.value,
       };
-      const roomId = await fb_DB.updateDBwithPK("rooms", roomData);
-      dispatch(setRoomID(roomId));
+      await fb_DB.updateDBwithPK(`guests/${roomID}`, profileData);
       navigate("/room");
     } catch (e) {
       throw e;
@@ -106,12 +82,12 @@ const MakeRoom = (props) => {
     <>
       <Header>
         <HeaderBtn
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/enterRoom")}
           content={"<<뒤로가기"}
         ></HeaderBtn>
         <HeaderBtn
-          onClick={() => makeRoom()}
-          content={"방 만들기>>"}
+          onClick={() => enterRoom()}
+          content={"입장하기>>"}
         ></HeaderBtn>
       </Header>
       <SetContainer backColor="var(--color-green)">
@@ -119,18 +95,8 @@ const MakeRoom = (props) => {
         <SetProfile
           nickName={nickName}
           handleProfileImg={handleProfileImg}
-          onSubmit={makeRoom}
+          onSubmit={enterRoom}
         ></SetProfile>
-      </SetContainer>
-      <SetContainer backColor="var(--color-green)">
-        <Title>방 설정</Title>
-        <SetRoom
-          schoolName={schoolName}
-          roomName={roomName}
-          password={password}
-          handleSchoolImg={handleSchoolImg}
-          onSubmit={makeRoom}
-        ></SetRoom>
       </SetContainer>
       {loading && (
         <LoadingContainer>
@@ -146,4 +112,4 @@ const MakeRoom = (props) => {
   );
 };
 
-export default MakeRoom;
+export default EditProfile;
