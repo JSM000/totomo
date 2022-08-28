@@ -11,17 +11,23 @@ const Main = styled.div`
 `;
 const ChooseBtn = styled.button`
   margin-top: 50px;
-  width: 500px;
-  height: 300px;
+  width: 90vw;
+  max-width: 600px;
   background: ${(props) => props.color};
   border: none;
   border-radius: 50px;
-  font-size: 5rem;
+  font-size: 7rem;
   color: white;
   &:hover {
     opacity: 0.7;
     cursor: pointer;
     border: 15px solid black;
+  }
+  @media (max-width: 1023px) {
+    font-size: 5rem;
+  }
+  @media (max-width: 768px) {
+    font-size: 3rem;
   }
 `;
 

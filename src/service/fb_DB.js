@@ -11,7 +11,6 @@ export const updateDB = async (ref, data) => {
 export const updateDBwithPK = async (ref, data) => {
   const updates = {};
   const newPostKey = fb_DB.ref().child(ref).push().key;
-  data["postKey"] = newPostKey;
   updates[`/${ref}/` + newPostKey] = data;
   await fb_DB.ref().update(updates);
   return newPostKey;

@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import Choose from "./components/Choose";
+import Choose from "./components/Choose/Choose";
 import MakeRoom from "./components/MakeRoom/MakeRoom";
 import EnterRoom from "./components/EnterRoom/EnterRoom";
 import Room from "./components/Room/Room";

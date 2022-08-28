@@ -18,6 +18,13 @@ const Btn = styled.button`
     cursor: pointer;
     border: 5px solid black;
   }
+  @media (max-width: 768px) {
+    margin-left: 5px;
+    margin-right: 5px;
+    font-size: 1rem;
+    height: 2rem;
+    border-radius: 10px;
+  }
 `;
 
 const HeaderBtn = ({ onClick, content }) => {

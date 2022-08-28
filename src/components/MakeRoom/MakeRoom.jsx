@@ -12,11 +12,15 @@ import HeaderBtn from "../Header/HeaderBtn";
 import * as fb_DB from "../../service/fb_DB";
 import * as fb_storage from "../../service/fb_storage";
 
+const Container = styled.div`
+  padding-top: 80px;
+`;
 const SetContainer = styled.div`
   background: ${(props) => props.backColor};
   margin: auto;
   margin-top: 50px;
-  width: 500px;
+  width: 95vw;
+  max-width: 500px;
   min-height: 265px;
   display: flex;
   flex-direction: column;
@@ -87,14 +91,19 @@ const MakeRoom = (props) => {
     try {
       const pImgURL = await saveImg("profileImgs", profileImg);
       const sImgURL = await saveImg("schoolImgs", schoolImg);
+      const profileData = {
+        pImgURL,
+        nickName: nickName.current.value,
+      };
       const roomData = {
-        host: { pImgURL, nickName: nickName.current.value },
         sImgURL,
         schoolName: schoolName.current.value,
         roomName: roomName.current.value,
         password: password.current.value,
       };
+
       const roomId = await fb_DB.updateDBwithPK("rooms", roomData);
+      fb_DB.updateDBwithPK(`guests/${roomId}`, profileData);
       dispatch(setRoomID(roomId));
       navigate("/room");
     } catch (e) {
@@ -114,24 +123,26 @@ const MakeRoom = (props) => {
           content={"방 만들기>>"}
         ></HeaderBtn>
       </Header>
-      <SetContainer backColor="var(--color-green)">
-        <Title>나의 프로필 설정</Title>
-        <SetProfile
-          nickName={nickName}
-          handleProfileImg={handleProfileImg}
-          onSubmit={makeRoom}
-        ></SetProfile>
-      </SetContainer>
-      <SetContainer backColor="var(--color-green)">
-        <Title>방 설정</Title>
-        <SetRoom
-          schoolName={schoolName}
-          roomName={roomName}
-          password={password}
-          handleSchoolImg={handleSchoolImg}
-          onSubmit={makeRoom}
-        ></SetRoom>
-      </SetContainer>
+      <Container>
+        <SetContainer backColor="var(--color-green)">
+          <Title>나의 프로필 설정</Title>
+          <SetProfile
+            nickName={nickName}
+            handleProfileImg={handleProfileImg}
+            onSubmit={makeRoom}
+          ></SetProfile>
+        </SetContainer>
+        <SetContainer backColor="var(--color-green)">
+          <Title>방 설정</Title>
+          <SetRoom
+            schoolName={schoolName}
+            roomName={roomName}
+            password={password}
+            handleSchoolImg={handleSchoolImg}
+            onSubmit={makeRoom}
+          ></SetRoom>
+        </SetContainer>
+      </Container>
       {loading && (
         <LoadingContainer>
           <ReactLoading

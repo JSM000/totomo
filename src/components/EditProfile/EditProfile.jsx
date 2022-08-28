@@ -4,19 +4,24 @@ import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import ReactLoading from "react-loading";
+import { useDispatch, useSelector } from "react-redux";
 
 import * as fb_DB from "../../service/fb_DB";
 import * as fb_storage from "../../service/fb_storage";
 import Header from "../Header/Header";
 import HeaderBtn from "../Header/HeaderBtn";
 import SetProfile from "./SetProfile";
-import { useSelector } from "react-redux";
+import { setProfileID } from "../../modules/roomInfo";
 
+const Container = styled.div`
+  padding-top: 80px;
+`;
 const SetContainer = styled.div`
   background: ${(props) => props.backColor};
   margin: auto;
   margin-top: 50px;
-  width: 500px;
+  width: 95vw;
+  max-width: 500px;
   min-height: 265px;
   display: flex;
   flex-direction: column;
@@ -46,6 +51,7 @@ const LoadingContainer = styled.div`
   align-items: center;
 `;
 const EditProfile = (props) => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const nickName = useRef();
   const [profileImg, setProfileImg] = useState();
@@ -71,7 +77,11 @@ const EditProfile = (props) => {
         pImgURL,
         nickName: nickName.current.value,
       };
-      await fb_DB.updateDBwithPK(`guests/${roomID}`, profileData);
+      const profileID = await fb_DB.updateDBwithPK(
+        `guests/${roomID}`,
+        profileData
+      );
+      dispatch(setProfileID(profileID));
       navigate("/room");
     } catch (e) {
       throw e;
@@ -90,14 +100,16 @@ const EditProfile = (props) => {
           content={"입장하기>>"}
         ></HeaderBtn>
       </Header>
-      <SetContainer backColor="var(--color-green)">
-        <Title>나의 프로필 설정</Title>
-        <SetProfile
-          nickName={nickName}
-          handleProfileImg={handleProfileImg}
-          onSubmit={enterRoom}
-        ></SetProfile>
-      </SetContainer>
+      <Container>
+        <SetContainer backColor="var(--color-green)">
+          <Title>나의 프로필 설정</Title>
+          <SetProfile
+            nickName={nickName}
+            handleProfileImg={handleProfileImg}
+            onSubmit={enterRoom}
+          ></SetProfile>
+        </SetContainer>
+      </Container>
       {loading && (
         <LoadingContainer>
           <ReactLoading

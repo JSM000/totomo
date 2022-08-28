@@ -7,7 +7,9 @@ const RoomContainer = styled.div`
   background: var(--color-green);
   margin: auto;
   margin-top: 50px;
-  width: 600px;
+  margin-bottom: 50px;
+  width: 95vw;
+  max-width: 600px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -21,7 +23,8 @@ const RoomContainer = styled.div`
 `;
 const Column = styled.div`
   background-color: white;
-  width: 70px;
+  width: 100%;
+  max-width: 70px;
   border-radius: 15px;
   border-bottom-right-radius: 0;
   text-align: center;
@@ -29,6 +32,11 @@ const Column = styled.div`
   color: var(--color-green);
   font-size: 1.5rem;
   font-weight: bold;
+
+  @media (max-width: 768px) {
+    line-height: 43px;
+    font-size: 1rem;
+  }
 `;
 const Title = styled.div`
   font-weight: bold;
@@ -43,10 +51,14 @@ const Title = styled.div`
     height: 7.5px; /*스크롤바의 너비*/
   }
   ::-webkit-scrollbar-thumb {
+    border-radius: 50px;
     background-color: black; /*스크롤바의 색상*/
   }
   ::-webkit-scrollbar-track {
     background-color: white; /*스크롤바 트랙 색상*/
+  }
+  @media (max-width: 768px) {
+    font-size: 1.5rem;
   }
 `;
 const RawContainer = styled.div`
@@ -55,22 +67,30 @@ const RawContainer = styled.div`
 `;
 const SchoolImg = styled.img`
   width: 130px;
+  min-width: 130px;
   height: 130px;
   border-radius: 25%;
   padding: 3px;
   margin: 20px 0px;
   margin-right: 20px;
   border: 3px solid white;
+  @media (max-width: 768px) {
+    width: 100px;
+    min-width: 100px;
+    height: 100px;
+    margin-right: 5px;
+  }
 `;
 const ColumnContainer = styled.div`
   width: ${(props) => props.asd};
+  min-width: 40px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
 `;
 
-const Room = ({ roomInfo }) => {
+const Room = ({ roomId, roomInfo }) => {
   const [modalOn, setModalOn] = useState(false);
   const sImgURL = roomInfo.sImgURL
     ? roomInfo.sImgURL
@@ -80,6 +100,7 @@ const Room = ({ roomInfo }) => {
       <PasswordModal
         show={modalOn}
         onHide={() => setModalOn(false)}
+        roomId={roomId}
         roomInfo={roomInfo}
       ></PasswordModal>
       <RoomContainer
@@ -89,11 +110,11 @@ const Room = ({ roomInfo }) => {
       >
         <RawContainer>
           <SchoolImg src={sImgURL}></SchoolImg>
-          <ColumnContainer asd="70px">
+          <ColumnContainer asd="10%">
             <Column>학교</Column>
             <Column>반</Column>
           </ColumnContainer>
-          <ColumnContainer asd="300px">
+          <ColumnContainer asd="60%">
             <Title>{roomInfo.schoolName}</Title>
             <Title>{roomInfo.roomName}</Title>
           </ColumnContainer>

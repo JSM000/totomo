@@ -58,7 +58,7 @@ const Btn = styled.button`
   }
 `;
 
-const PasswordModal = ({ show, onHide, roomInfo }) => {
+const PasswordModal = ({ show, onHide, roomId, roomInfo }) => {
   const passwordRef = useRef();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -67,7 +67,7 @@ const PasswordModal = ({ show, onHide, roomInfo }) => {
     if (passwordRef.current.value === "") {
       return;
     } else if (passwordRef.current.value === roomInfo.password) {
-      dispatch(setRoomID(roomInfo.postKey));
+      dispatch(setRoomID(roomId));
       navigate("/editProfile");
     } else {
       onHide();
