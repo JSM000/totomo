@@ -115,6 +115,7 @@ const Icon = styled.div`
 `;
 const Guests = ({ guestInfos, roomInfo, profileID }) => {
   const [open, setOpen] = useState(false);
+  console.log(guestInfos.In);
 
   return (
     <Container open={open}>
@@ -122,12 +123,14 @@ const Guests = ({ guestInfos, roomInfo, profileID }) => {
         {Object.keys(guestInfos)
           .reverse()
           .map((key) => {
-            const isMyself = key === profileID;
+            if (key === profileID) {
+              return;
+            }
             return (
               <Guest
                 key={key}
                 guestInfo={guestInfos[key]}
-                isMyself={isMyself}
+                isMyself={false}
               ></Guest>
             );
           })}

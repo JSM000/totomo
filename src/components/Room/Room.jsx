@@ -31,13 +31,16 @@ const Room = (props) => {
     }
   };
 
+  const asd = async () => {
+    return await fb_DB.syncDB(`guests/${roomID}`, (guestInfo) => {
+      setGuestInfo(guestInfo);
+    });
+  };
   useEffect(() => {
     const stopSyncRooms = fb_DB.syncDB(`rooms/${roomID}`, (roomInfo) => {
       setRoomInfo(roomInfo);
     });
-    const stopSyncGuests = fb_DB.syncDB(`guests/${roomID}`, (guestInfo) => {
-      setGuestInfo(guestInfo);
-    });
+    const stopSyncGuests = asd();
     const stopSyncChats = fb_DB.syncDB(`chats/${roomID}`, (chatInfo) => {
       setChatInfo(chatInfo);
     });
