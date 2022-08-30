@@ -31,27 +31,24 @@ const Room = (props) => {
     }
   };
 
-  const asd = async () => {
-    return await fb_DB.syncDB(`guests/${roomID}`, (guestInfo) => {
-      setGuestInfo(guestInfo);
-    });
-  };
   useEffect(() => {
     const stopSyncRooms = fb_DB.syncDB(`rooms/${roomID}`, (roomInfo) => {
       setRoomInfo(roomInfo);
     });
-    const stopSyncGuests = asd();
+    const stopSyncGuests = fb_DB.syncDB(`guests/${roomID}`, (guestInfo) => {
+      setGuestInfo(guestInfo);
+    });
     const stopSyncChats = fb_DB.syncDB(`chats/${roomID}`, (chatInfo) => {
       setChatInfo(chatInfo);
     });
     return () => {
       fb_DB.removeDB(`guests/${roomID}/${profileID}`);
+      Object.keys(guestInfos).length === 0 && console.log("다 나감!");
       stopSyncRooms;
       stopSyncGuests;
       stopSyncChats;
     };
   }, []);
-  console.log(roomID);
 
   return (
     <>

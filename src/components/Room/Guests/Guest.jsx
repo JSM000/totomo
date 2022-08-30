@@ -53,6 +53,7 @@ const NickName = styled.div`
 `;
 
 const Guest = ({ guestInfo, isMyself }) => {
+  console.log(guestInfo);
   return (
     <Container>
       <UserImg
