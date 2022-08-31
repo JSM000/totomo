@@ -5,6 +5,7 @@ import ReactLoading from "react-loading";
 import { useDispatch } from "react-redux";
 
 import { setRoomID } from "../../modules/roomInfo";
+import { setProfileID } from "../../modules/roomInfo";
 import SetProfile from "./SetProfile";
 import SetRoom from "./SetRoom";
 import Header from "../Header/Header";
@@ -103,8 +104,13 @@ const MakeRoom = (props) => {
       };
 
       const roomId = await fb_DB.updateDBwithPK("rooms", roomData);
-      fb_DB.updateDBwithPK(`guests/${roomId}`, profileData);
+      const profileId = await fb_DB.updateDBwithPK(
+        `guests/${roomId}`,
+        profileData
+      );
       dispatch(setRoomID(roomId));
+      dispatch(setProfileID(profileId));
+
       navigate("/room");
     } catch (e) {
       throw e;
