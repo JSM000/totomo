@@ -4,9 +4,12 @@ import styled from "styled-components";
 import * as _ from "lodash";
 
 const Container = styled.div`
+  width: 100vw;
+  position: absolute;
   padding-top: 8.5rem;
   padding-bottom: 3rem;
   padding-left: 2rem;
+  bottom: 0.5rem;
 `;
 
 const ChatList = ({ roomID, chatInfos, profileID }) => {

@@ -92,9 +92,6 @@ const ColumnContainer = styled.div`
 
 const Room = ({ roomId, roomInfo }) => {
   const [modalOn, setModalOn] = useState(false);
-  const sImgURL = roomInfo.sImgURL
-    ? roomInfo.sImgURL
-    : "images/default_school.png";
   return (
     <>
       <PasswordModal
@@ -109,7 +106,11 @@ const Room = ({ roomId, roomInfo }) => {
         }}
       >
         <RawContainer>
-          <SchoolImg src={sImgURL}></SchoolImg>
+          <SchoolImg
+            src={
+              roomInfo.sImgURL ? roomInfo.sImgURL : "images/default_school.png"
+            }
+          ></SchoolImg>
           <ColumnContainer asd="10%">
             <Column>학교</Column>
             <Column>반</Column>

@@ -4,6 +4,7 @@ import { BsChevronDoubleDown, BsChevronDoubleUp } from "react-icons/bs";
 import Guest from "./Guest";
 
 const Container = styled.div`
+  z-index: 90;
   top: -94px;
   position: fixed;
   padding-top: 5rem;
@@ -137,7 +138,7 @@ const Guests = ({ guestInfos, roomInfo, profileID }) => {
               roomInfo.sImgURL ? roomInfo.sImgURL : "images/default_profile.png"
             }
           />
-          {roomInfo.roomName} - {roomInfo.schoolName}
+          {roomInfo.schoolName} - {roomInfo.roomName}
         </Title>
         <Icon> {open ? <BsChevronDoubleUp /> : <BsChevronDoubleDown />}</Icon>
         <Title>접속자 수 : {Object.keys(guestInfos).length}</Title>
@@ -145,5 +146,4 @@ const Guests = ({ guestInfos, roomInfo, profileID }) => {
     </Container>
   );
 };
-
 export default Guests;

@@ -16,10 +16,12 @@ const EnterRoom = () => {
   const [rooms, setRooms] = useState({});
 
   useEffect(() => {
-    const stopSync = fb_DB.syncDB(`rooms`, (rooms) => {
+    const stopSyncRooms = fb_DB.syncDB(`rooms`, (rooms) => {
       setRooms(rooms);
     });
-    return () => stopSync;
+    return () => {
+      stopSyncRooms;
+    };
   }, [fb_DB]);
 
   return (

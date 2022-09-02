@@ -43,7 +43,6 @@ const Room = (props) => {
     });
     return () => {
       fb_DB.removeDB(`guests/${roomID}/${profileID}`);
-      Object.keys(guestInfos).length === 0 && console.log("다 나감!");
       stopSyncRooms;
       stopSyncGuests;
       stopSyncChats;
